@@ -17,6 +17,8 @@ echo "HOSTNAME: ${HOSTNAME}"
 # KEA_DB_PASSWORD is not printed
 envsubst '$KEA_DB_HOST,$KEA_DB_PORT,$KEA_DB_USER,$KEA_DB_DB,$KEA_DB_PASSWORD,$HOSTNAME' < /etc/kea/kea-dhcp4.conf.env > /etc/kea/kea-dhcp4.conf
 
+echo "Startmode: $1 $2"
+
 if [ "$1" = "agent" ] ; then
   exec /usr/sbin/kea-ctrl-agent -c /etc/kea/kea-ctrl-agent.conf
 else
