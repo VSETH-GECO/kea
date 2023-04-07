@@ -12,6 +12,7 @@ RUN apt update && \
 
 ADD conf/kea-ctrl-agent.conf /etc/kea/kea-ctrl-agent.conf
 ADD conf/kea-dhcp4.conf.env /etc/kea/kea-dhcp4.conf.env
+ADD conf/kea-dhcp6.conf.env /etc/kea/kea-dhcp6.conf.env
 ADD bootstrap.sh /bootstrap.sh
 
 ENTRYPOINT ["/bootstrap.sh"]
