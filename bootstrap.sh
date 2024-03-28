@@ -4,7 +4,8 @@ set -eo pipefail
 
 echo "--------------------------------"
 
-echo "Bootstrapping at $(date) on $(hostname -f)"
+export HOSTNAME="${PODNAME}.kea.kea.svc.cluster.local"
+echo "Bootstrapping at $(date) on ${HOSTNAME}"
 
 echo "--------------------------------"
 echo "DB config"
@@ -12,7 +13,6 @@ echo "Host: ${KEA_DB_HOST}"
 echo "Port: ${KEA_DB_PORT}"
 echo "User: ${KEA_DB_USER}"
 echo "Database: ${KEA_DB_DB}"
-export HOSTNAME="$(hostname -f)"
 echo "HOSTNAME: ${HOSTNAME}"
 # KEA_DB_PASSWORD is not printed
 envsubst '$KEA_DB_HOST,$KEA_DB_PORT,$KEA_DB_USER,$KEA_DB_DB,$KEA_DB_PASSWORD,$HOSTNAME' < /etc/kea/kea-dhcp4.conf.env > /etc/kea/kea-dhcp4.conf
