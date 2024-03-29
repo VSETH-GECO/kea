@@ -7,6 +7,8 @@ echo "--------------------------------"
 export HOSTNAME="${PODNAME}.kea.kea.svc.cluster.local"
 echo "Bootstrapping at $(date) on ${HOSTNAME}"
 
+MY_V6="$(ip -6 addr show dev eth0 | grep 2001 | awk '{print $2}' | sed 's/\/.*//g')"
+
 echo "--------------------------------"
 echo "DB config"
 echo "Host: ${KEA_DB_HOST}"
@@ -16,6 +18,7 @@ echo "Database: ${KEA_DB_DB}"
 echo "HOSTNAME: ${HOSTNAME}"
 # KEA_DB_PASSWORD is not printed
 envsubst '$KEA_DB_HOST,$KEA_DB_PORT,$KEA_DB_USER,$KEA_DB_DB,$KEA_DB_PASSWORD,$HOSTNAME' < /etc/kea/kea-dhcp4.conf.env > /etc/kea/kea-dhcp4.conf
+sed -i "s/\"interfaces\": \[ \]/\"interfaces\": \[ \"$MY_V6\" \]/g" /etc/kea/kea-dhcp6.conf.env
 envsubst '$KEA_DB_HOST,$KEA_DB_PORT,$KEA_DB_USER,$KEA_DB_DB,$KEA_DB_PASSWORD,$HOSTNAME' < /etc/kea/kea-dhcp6.conf.env > /etc/kea/kea-dhcp6.conf
 envsubst '$KEA_DB_HOST,$KEA_DB_PORT,$KEA_DB_USER,$KEA_DB_DB,$KEA_DB_PASSWORD,$HOSTNAME,$DDNS_KEY' < /etc/kea/kea-ddns.conf.env > /etc/kea/kea-ddns.conf
 
